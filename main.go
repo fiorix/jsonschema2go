@@ -6,8 +6,6 @@ import (
 	"io"
 	"os"
 	"os/exec"
-
-	"github.com/fiorix/jsonschema2go/gen"
 )
 
 func main() {
@@ -45,7 +43,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = gen.Go(pw, *pkgName, flag.Arg(0))
+	err = Gen(pw, *pkgName, flag.Arg(0))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

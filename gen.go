@@ -1,5 +1,4 @@
-// Package gen is part of jsonschema2go and provides a Go code generator from JSON schema.
-package gen
+package main
 
 import (
 	"bytes"
@@ -16,29 +15,17 @@ import (
 	"github.com/fiorix/jsonschema2go/schema"
 )
 
-// Go open/fetch and parses JSON schema, and writes Go code to w.
-func Go(w io.Writer, pkgName, jsonSchemaURL string) error {
-	fmt.Fprintf(w, "// Package %s was auto-generated.\n", pkgName)
+// Gen open/fetch and parses JSON schema, and writes Go code to w.
+func Gen(w io.Writer, pkgName, jsonSchemaURL string) error {
+	fmt.Fprintf(w, "// Package %s was auto-generated.\n// Command: %s\n", pkgName, strings.Join(os.Args, " "))
 	fmt.Fprintf(w, "package %s\n\n", pkgName)
 	return fetchAndGenerate(w, jsonSchemaURL)
-}
-
-var goPublicTypeRegexp = regexp.MustCompile("[0-9A-Za-z]+")
-
-func goPublicType(name string) string {
-	parts := goPublicTypeRegexp.FindAllString(name, -1)
-
-	name = ""
-	for _, part := range parts {
-		name += strings.Title(part)
-	}
-
-	return name
 }
 
 type schema2go struct {
 	root      *schema.Schema
 	baseURL   string
+	rootType  string
 	typeCache map[string]struct{}
 }
 
@@ -54,14 +41,15 @@ func fetchAndGenerate(w io.Writer, schemaURL string) error {
 	g := &schema2go{
 		root:      root,
 		baseURL:   baseURL,
+		rootType:  name,
 		typeCache: make(map[string]struct{}),
 	}
 
-	return g.genObjectType(w, name, schemaURL, root.Type)
+	return g.genStruct(w, name, schemaURL, root.Type)
 }
 
 func openAndDecodeSchema(schemaURL string) (*schema.Schema, error) {
-	f, err := getSourceFile(schemaURL)
+	f, err := openSourceFile(schemaURL)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +64,20 @@ func openAndDecodeSchema(schemaURL string) (*schema.Schema, error) {
 	return &root, nil
 }
 
-func getSourceFile(schemaURL string) (io.ReadCloser, error) {
+var goPublicTypeRegexp = regexp.MustCompile("[0-9A-Za-z]+")
+
+func goPublicType(name string) string {
+	parts := goPublicTypeRegexp.FindAllString(name, -1)
+
+	name = ""
+	for _, part := range parts {
+		name += strings.Title(part)
+	}
+
+	return name
+}
+
+func openSourceFile(schemaURL string) (io.ReadCloser, error) {
 	u, err := url.Parse(schemaURL)
 	if err != nil {
 		return nil, err
@@ -86,7 +87,7 @@ func getSourceFile(schemaURL string) (io.ReadCloser, error) {
 	case u.Host == "" && u.Path != "":
 		return os.Open(u.Path)
 	case u.Host != "" && u.Path != "":
-		resp, err := http.Get(u.String())
+		resp, err := http.Get(schemaURL)
 		if err != nil {
 			return nil, err
 		}
@@ -96,13 +97,9 @@ func getSourceFile(schemaURL string) (io.ReadCloser, error) {
 	}
 }
 
-func (g *schema2go) genObjectType(w io.Writer, name, src string, t *schema.Type) error {
-	switch {
-	case t.Type != "object":
-		return fmt.Errorf("root schema type is not object: %q", name)
-	case len(t.Properties) == 0:
-		return fmt.Errorf("root schema type has no properties: %q", name)
-
+func (g *schema2go) genStruct(w io.Writer, name, src string, t *schema.Type) error {
+	if !strings.HasPrefix(name, g.rootType) {
+		name = g.rootType + name
 	}
 
 	if _, exists := g.typeCache[name]; exists {
@@ -110,6 +107,13 @@ func (g *schema2go) genObjectType(w io.Writer, name, src string, t *schema.Type)
 	}
 
 	g.typeCache[name] = struct{}{}
+
+	switch {
+	case t.Type != "object":
+		return fmt.Errorf("schema type is not object: %q (root=%v)", name, src != "")
+	case len(t.Properties) == 0:
+		return fmt.Errorf("schema type has no properties: %q (root=%v)", name, src != "")
+	}
 
 	fmt.Fprintf(w, "// %s was auto-generated.\n", name)
 	if t.Description != "" {
@@ -125,7 +129,7 @@ func (g *schema2go) genObjectType(w io.Writer, name, src string, t *schema.Type)
 	for fieldName, fieldProp := range t.Properties {
 		fieldTag := fieldName
 		fieldName = goPublicType(fieldName)
-		fieldType, err := g.genFieldType(&b, fieldName, fieldProp)
+		fieldType, err := g.genStructField(&b, name, fieldName, fieldProp)
 		if err != nil {
 			return err
 		}
@@ -138,9 +142,9 @@ func (g *schema2go) genObjectType(w io.Writer, name, src string, t *schema.Type)
 	return err
 }
 
-func (g *schema2go) genFieldType(w io.Writer, name string, t *schema.Type) (string, error) {
+func (g *schema2go) genStructField(w io.Writer, parent, name string, t *schema.Type) (string, error) {
 	if t.Ref != "" {
-		return g.genFieldTypeFromRef(w, name, t)
+		return g.genStructFieldFromRef(w, parent, name, t)
 	}
 
 	switch t.Type {
@@ -151,17 +155,21 @@ func (g *schema2go) genFieldType(w io.Writer, name string, t *schema.Type) (stri
 	case "boolean":
 		return "bool", nil
 	case "array":
-		elemType, err := g.genFieldType(w, name, t.Items)
+		elemType, err := g.genStructField(w, parent, name, t.Items)
 		if err != nil {
 			return "", err
 		}
 		return "[]" + elemType, nil
 	case "object":
-		err := g.genObjectType(w, name, "", t)
+		if strings.HasSuffix(parent, name) {
+			return /* "*" + */ parent, nil
+		}
+		typeName := goPublicType(parent + "_" + name)
+		err := g.genStruct(w, typeName, "", t)
 		if err != nil {
 			return "", err
 		}
-		return "*" + name, nil
+		return /* "*" + */ typeName, nil
 	default:
 		if t.Enum == nil {
 			return "", fmt.Errorf("unknown field type for %q: %q", name, t.Type)
@@ -170,7 +178,7 @@ func (g *schema2go) genFieldType(w io.Writer, name string, t *schema.Type) (stri
 	}
 }
 
-func (g *schema2go) genFieldTypeFromRef(w io.Writer, name string, t *schema.Type) (string, error) {
+func (g *schema2go) genStructFieldFromRef(w io.Writer, parent, name string, t *schema.Type) (string, error) {
 	u, err := url.Parse(t.Ref)
 	if err != nil {
 		return "", err
@@ -188,8 +196,9 @@ func (g *schema2go) genFieldTypeFromRef(w io.Writer, name string, t *schema.Type
 			def.Type = "object"
 		}
 
+		parent = g.rootType
 		name = goPublicType(key)
-		return g.genFieldType(w, name, def)
+		return g.genStructField(w, parent, name, def)
 
 	case u.Path != "":
 		err := fetchAndGenerate(w, g.genURL(u.Host, u.Path))
@@ -198,7 +207,7 @@ func (g *schema2go) genFieldTypeFromRef(w io.Writer, name string, t *schema.Type
 		}
 
 		name = goPublicType(u.Path)
-		return "*" + name, nil
+		return /* "*" + */ name, nil
 	}
 
 	return "", nil
