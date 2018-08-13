@@ -258,3 +258,20 @@ func (g *schema2go) genURL(host, path string) string {
 	}
 	return host + path
 }
+
+func commandLine() string {
+	args := make([]string, 0, len(os.Args))
+	for _, arg := range os.Args {
+		if strings.Index(arg, " ") == -1 || arg[0] != '-' {
+			args = append(args, arg)
+			continue
+		}
+
+		pos := strings.Index(arg, "=")
+		pos++
+		arg = arg[0:pos] + fmt.Sprintf("%q", arg[pos:])
+		args = append(args, arg)
+	}
+
+	return strings.Join(args, " ")
+}

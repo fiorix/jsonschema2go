@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"os"
 	"regexp"
 	"sort"
 	"strings"
@@ -30,14 +29,14 @@ var thriftTypeConv = typeConv{
 }
 
 // GenThrift generates thrift spec to w.
-func GenThrift(w io.Writer, jsonSchema string) error {
-	list, err := ParseSchema(jsonSchema)
+func GenThrift(w io.Writer, jsonSchemaURL string) error {
+	list, err := ParseSchema(jsonSchemaURL)
 	if err != nil {
 		return err
 	}
 
 	fmt.Fprintf(w, "// This thrift spec was auto-generated.\n")
-	fmt.Fprintf(w, "// Command: %s\n", strings.Join(os.Args, " "))
+	fmt.Fprintf(w, "// Command: %s\n\n", commandLine())
 
 	for _, ns := range strings.Split(*flagThriftNS, ",") {
 		fmt.Fprintf(w, "namespace %s\n", strings.TrimSpace(ns))
@@ -91,7 +90,7 @@ func GenThrift(w io.Writer, jsonSchema string) error {
 		sort.Strings(keys)
 
 		for i, key := range keys {
-			fmt.Fprintf(w, "\t%d: %s\n", i+1, fields[key])
+			fmt.Fprintf(w, " %d: %s\n", i+1, fields[key])
 		}
 
 		fmt.Fprintf(w, "}\n\n")

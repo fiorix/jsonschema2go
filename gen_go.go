@@ -38,8 +38,8 @@ var goTypeConv = typeConv{
 }
 
 // GenGo generates Go code to w.
-func GenGo(w io.Writer, jsonSchema string) error {
-	list, err := ParseSchema(jsonSchema)
+func GenGo(w io.Writer, jsonSchemaURL string) error {
+	list, err := ParseSchema(jsonSchemaURL)
 	if err != nil {
 		return err
 	}
@@ -47,7 +47,7 @@ func GenGo(w io.Writer, jsonSchema string) error {
 	pkg := *flagGoPkg
 	var b bytes.Buffer
 	fmt.Fprintf(&b, "// Package %s was auto-generated.\n", pkg)
-	fmt.Fprintf(&b, "// Command: %s\n", strings.Join(os.Args, " "))
+	fmt.Fprintf(&b, "// Command: %s\n", commandLine())
 	fmt.Fprintf(&b, "package %s\n\n", pkg)
 
 	for _, structType := range list {
