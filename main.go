@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 )
 
 func main() {
@@ -16,42 +15,32 @@ func main() {
 		os.Exit(1)
 	}
 
-	pkgName := flag.String("p", "schema", "name of generated package")
-	outputFile := flag.String("o", "-", "output file")
+	outputFile := flag.String("o", "-", "set name of output file")
+	outputType := flag.String("gen", "go", "set output format: go, thrift")
 	flag.Parse()
 
 	if len(flag.Args()) == 0 {
 		flag.Usage()
 	}
 
-	out, err := createFile(*outputFile)
+	f, err := createFile(*outputFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	defer out.Close()
+	defer f.Close()
 
-	pr, pw := io.Pipe()
+	jsonSchema := flag.Arg(0)
 
-	gofmt := exec.Command("gofmt")
-	gofmt.Stdin = pr
-	gofmt.Stdout = out
-
-	err = gofmt.Start()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+	switch *outputType {
+	case "go":
+		err = GenGo(f, jsonSchema)
+	case "thrift":
+		err = GenThrift(f, jsonSchema)
+	default:
+		err = fmt.Errorf("unsupported output type: %q", *outputType)
 	}
 
-	err = Gen(pw, *pkgName, flag.Arg(0))
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	pw.Close()
-
-	err = gofmt.Wait()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
