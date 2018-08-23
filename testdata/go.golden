@@ -4,41 +4,41 @@ package schema
 
 // NvdCveFeedJson01BetaDefNodeCpe was auto-generated.
 type NvdCveFeedJson01BetaDefNodeCpe struct {
-	Cpe23Uri string `json:"cpe23Uri"`
-	CpeMatchString string `json:"cpeMatchString"`
-	VersionEndExcluding string `json:"versionEndExcluding"`
-	VersionEndIncluding string `json:"versionEndIncluding"`
-	VersionStartExcluding string `json:"versionStartExcluding"`
-	VersionStartIncluding string `json:"versionStartIncluding"`
-	Vulnerable bool `json:"vulnerable"`
+	Cpe23Uri string `json:"cpe23Uri,omitempty"`
+	CpeMatchString string `json:"cpeMatchString,omitempty"`
+	VersionEndExcluding string `json:"versionEndExcluding,omitempty"`
+	VersionEndIncluding string `json:"versionEndIncluding,omitempty"`
+	VersionStartExcluding string `json:"versionStartExcluding,omitempty"`
+	VersionStartIncluding string `json:"versionStartIncluding,omitempty"`
+	Vulnerable bool `json:"vulnerable,omitempty"`
 }
 
 // NvdCveFeedJson01BetaDefNode was auto-generated.
 // Defines a node or sub-node in an NVD applicability statement.
 type NvdCveFeedJson01BetaDefNode struct {
-	Children []NvdCveFeedJson01BetaDefNode `json:"children"`
-	Cpe []NvdCveFeedJson01BetaDefNodeCpe `json:"cpe"`
-	Negate bool `json:"negate"`
-	Operator string `json:"operator"`
+	Children []NvdCveFeedJson01BetaDefNode `json:"children,omitempty"`
+	Cpe []NvdCveFeedJson01BetaDefNodeCpe `json:"cpe,omitempty"`
+	Negate bool `json:"negate,omitempty"`
+	Operator string `json:"operator,omitempty"`
 }
 
 // NvdCveFeedJson01BetaDefConfigurations was auto-generated.
 // Defines the set of product configurations for a NVD applicability statement.
 type NvdCveFeedJson01BetaDefConfigurations struct {
 	CVEDataVersion string `json:"CVE_data_version"`
-	Nodes []NvdCveFeedJson01BetaDefNode `json:"nodes"`
+	Nodes []NvdCveFeedJson01BetaDefNode `json:"nodes,omitempty"`
 }
 
 // CVEJSON40MinCVEDataMeta was auto-generated.
 type CVEJSON40MinCVEDataMeta struct {
 	ASSIGNER string `json:"ASSIGNER"`
 	ID string `json:"ID"`
-	STATE string `json:"STATE"`
+	STATE string `json:"STATE,omitempty"`
 }
 
 // CVEJSON40MinProductVersionVersionData was auto-generated.
 type CVEJSON40MinProductVersionVersionData struct {
-	VersionAffected string `json:"version_affected"`
+	VersionAffected string `json:"version_affected,omitempty"`
 	VersionValue string `json:"version_value"`
 }
 
@@ -97,9 +97,9 @@ type CVEJSON40MinProblemtype struct {
 
 // CVEJSON40MinReference was auto-generated.
 type CVEJSON40MinReference struct {
-	Name string `json:"name"`
-	Refsource string `json:"refsource"`
-	Tags []string `json:"tags"`
+	Name string `json:"name,omitempty"`
+	Refsource string `json:"refsource,omitempty"`
+	Tags []string `json:"tags,omitempty"`
 	Url string `json:"url"`
 }
 
@@ -124,23 +124,23 @@ type CVEJSON40Min struct {
 // CvssV20 was auto-generated.
 // Source: testdata/nvd/cvss-v2.0.json
 type CvssV20 struct {
-	AccessComplexity string `json:"accessComplexity"`
-	AccessVector string `json:"accessVector"`
-	Authentication string `json:"authentication"`
-	AvailabilityImpact string `json:"availabilityImpact"`
-	AvailabilityRequirement string `json:"availabilityRequirement"`
+	AccessComplexity string `json:"accessComplexity,omitempty"`
+	AccessVector string `json:"accessVector,omitempty"`
+	Authentication string `json:"authentication,omitempty"`
+	AvailabilityImpact string `json:"availabilityImpact,omitempty"`
+	AvailabilityRequirement string `json:"availabilityRequirement,omitempty"`
 	BaseScore float64 `json:"baseScore"`
-	CollateralDamagePotential string `json:"collateralDamagePotential"`
-	ConfidentialityImpact string `json:"confidentialityImpact"`
-	ConfidentialityRequirement string `json:"confidentialityRequirement"`
-	EnvironmentalScore float64 `json:"environmentalScore"`
-	Exploitability string `json:"exploitability"`
-	IntegrityImpact string `json:"integrityImpact"`
-	IntegrityRequirement string `json:"integrityRequirement"`
-	RemediationLevel string `json:"remediationLevel"`
-	ReportConfidence string `json:"reportConfidence"`
-	TargetDistribution string `json:"targetDistribution"`
-	TemporalScore float64 `json:"temporalScore"`
+	CollateralDamagePotential string `json:"collateralDamagePotential,omitempty"`
+	ConfidentialityImpact string `json:"confidentialityImpact,omitempty"`
+	ConfidentialityRequirement string `json:"confidentialityRequirement,omitempty"`
+	EnvironmentalScore float64 `json:"environmentalScore,omitempty"`
+	Exploitability string `json:"exploitability,omitempty"`
+	IntegrityImpact string `json:"integrityImpact,omitempty"`
+	IntegrityRequirement string `json:"integrityRequirement,omitempty"`
+	RemediationLevel string `json:"remediationLevel,omitempty"`
+	ReportConfidence string `json:"reportConfidence,omitempty"`
+	TargetDistribution string `json:"targetDistribution,omitempty"`
+	TemporalScore float64 `json:"temporalScore,omitempty"`
 	VectorString string `json:"vectorString"`
 	Version string `json:"version"`
 }
@@ -148,47 +148,47 @@ type CvssV20 struct {
 // NvdCveFeedJson01BetaDefImpactBaseMetricV2 was auto-generated.
 // CVSS V2.0 score.
 type NvdCveFeedJson01BetaDefImpactBaseMetricV2 struct {
-	CvssV2 CvssV20 `json:"cvssV2"`
-	ExploitabilityScore float64 `json:"exploitabilityScore"`
-	ImpactScore float64 `json:"impactScore"`
-	ObtainAllPrivilege bool `json:"obtainAllPrivilege"`
-	ObtainOtherPrivilege bool `json:"obtainOtherPrivilege"`
-	ObtainUserPrivilege bool `json:"obtainUserPrivilege"`
-	Severity string `json:"severity"`
-	UserInteractionRequired bool `json:"userInteractionRequired"`
+	CvssV2 CvssV20 `json:"cvssV2,omitempty"`
+	ExploitabilityScore float64 `json:"exploitabilityScore,omitempty"`
+	ImpactScore float64 `json:"impactScore,omitempty"`
+	ObtainAllPrivilege bool `json:"obtainAllPrivilege,omitempty"`
+	ObtainOtherPrivilege bool `json:"obtainOtherPrivilege,omitempty"`
+	ObtainUserPrivilege bool `json:"obtainUserPrivilege,omitempty"`
+	Severity string `json:"severity,omitempty"`
+	UserInteractionRequired bool `json:"userInteractionRequired,omitempty"`
 }
 
 // CvssV30 was auto-generated.
 // Source: testdata/nvd/cvss-v3.0.json
 type CvssV30 struct {
-	AttackComplexity string `json:"attackComplexity"`
-	AttackVector string `json:"attackVector"`
-	AvailabilityImpact string `json:"availabilityImpact"`
-	AvailabilityRequirement string `json:"availabilityRequirement"`
+	AttackComplexity string `json:"attackComplexity,omitempty"`
+	AttackVector string `json:"attackVector,omitempty"`
+	AvailabilityImpact string `json:"availabilityImpact,omitempty"`
+	AvailabilityRequirement string `json:"availabilityRequirement,omitempty"`
 	BaseScore float64 `json:"baseScore"`
 	BaseSeverity string `json:"baseSeverity"`
-	ConfidentialityImpact string `json:"confidentialityImpact"`
-	ConfidentialityRequirement string `json:"confidentialityRequirement"`
-	EnvironmentalScore float64 `json:"environmentalScore"`
-	EnvironmentalSeverity string `json:"environmentalSeverity"`
-	ExploitCodeMaturity string `json:"exploitCodeMaturity"`
-	IntegrityImpact string `json:"integrityImpact"`
-	IntegrityRequirement string `json:"integrityRequirement"`
-	ModifiedAttackComplexity string `json:"modifiedAttackComplexity"`
-	ModifiedAttackVector string `json:"modifiedAttackVector"`
-	ModifiedAvailabilityImpact string `json:"modifiedAvailabilityImpact"`
-	ModifiedConfidentialityImpact string `json:"modifiedConfidentialityImpact"`
-	ModifiedIntegrityImpact string `json:"modifiedIntegrityImpact"`
-	ModifiedPrivilegesRequired string `json:"modifiedPrivilegesRequired"`
-	ModifiedScope string `json:"modifiedScope"`
-	ModifiedUserInteraction string `json:"modifiedUserInteraction"`
-	PrivilegesRequired string `json:"privilegesRequired"`
-	RemediationLevel string `json:"remediationLevel"`
-	ReportConfidence string `json:"reportConfidence"`
-	Scope string `json:"scope"`
-	TemporalScore float64 `json:"temporalScore"`
-	TemporalSeverity string `json:"temporalSeverity"`
-	UserInteraction string `json:"userInteraction"`
+	ConfidentialityImpact string `json:"confidentialityImpact,omitempty"`
+	ConfidentialityRequirement string `json:"confidentialityRequirement,omitempty"`
+	EnvironmentalScore float64 `json:"environmentalScore,omitempty"`
+	EnvironmentalSeverity string `json:"environmentalSeverity,omitempty"`
+	ExploitCodeMaturity string `json:"exploitCodeMaturity,omitempty"`
+	IntegrityImpact string `json:"integrityImpact,omitempty"`
+	IntegrityRequirement string `json:"integrityRequirement,omitempty"`
+	ModifiedAttackComplexity string `json:"modifiedAttackComplexity,omitempty"`
+	ModifiedAttackVector string `json:"modifiedAttackVector,omitempty"`
+	ModifiedAvailabilityImpact string `json:"modifiedAvailabilityImpact,omitempty"`
+	ModifiedConfidentialityImpact string `json:"modifiedConfidentialityImpact,omitempty"`
+	ModifiedIntegrityImpact string `json:"modifiedIntegrityImpact,omitempty"`
+	ModifiedPrivilegesRequired string `json:"modifiedPrivilegesRequired,omitempty"`
+	ModifiedScope string `json:"modifiedScope,omitempty"`
+	ModifiedUserInteraction string `json:"modifiedUserInteraction,omitempty"`
+	PrivilegesRequired string `json:"privilegesRequired,omitempty"`
+	RemediationLevel string `json:"remediationLevel,omitempty"`
+	ReportConfidence string `json:"reportConfidence,omitempty"`
+	Scope string `json:"scope,omitempty"`
+	TemporalScore float64 `json:"temporalScore,omitempty"`
+	TemporalSeverity string `json:"temporalSeverity,omitempty"`
+	UserInteraction string `json:"userInteraction,omitempty"`
 	VectorString string `json:"vectorString"`
 	Version string `json:"version"`
 }
@@ -196,34 +196,34 @@ type CvssV30 struct {
 // NvdCveFeedJson01BetaDefImpactBaseMetricV3 was auto-generated.
 // CVSS V3.0 score.
 type NvdCveFeedJson01BetaDefImpactBaseMetricV3 struct {
-	CvssV3 CvssV30 `json:"cvssV3"`
-	ExploitabilityScore float64 `json:"exploitabilityScore"`
-	ImpactScore float64 `json:"impactScore"`
+	CvssV3 CvssV30 `json:"cvssV3,omitempty"`
+	ExploitabilityScore float64 `json:"exploitabilityScore,omitempty"`
+	ImpactScore float64 `json:"impactScore,omitempty"`
 }
 
 // NvdCveFeedJson01BetaDefImpact was auto-generated.
 // Impact scores for a vulnerability as found on NVD.
 type NvdCveFeedJson01BetaDefImpact struct {
-	BaseMetricV2 NvdCveFeedJson01BetaDefImpactBaseMetricV2 `json:"baseMetricV2"`
-	BaseMetricV3 NvdCveFeedJson01BetaDefImpactBaseMetricV3 `json:"baseMetricV3"`
+	BaseMetricV2 NvdCveFeedJson01BetaDefImpactBaseMetricV2 `json:"baseMetricV2,omitempty"`
+	BaseMetricV3 NvdCveFeedJson01BetaDefImpactBaseMetricV3 `json:"baseMetricV3,omitempty"`
 }
 
 // NvdCveFeedJson01BetaDefCveItem was auto-generated.
 // Defines a vulnerability in the NVD data feed.
 type NvdCveFeedJson01BetaDefCveItem struct {
-	Configurations NvdCveFeedJson01BetaDefConfigurations `json:"configurations"`
+	Configurations NvdCveFeedJson01BetaDefConfigurations `json:"configurations,omitempty"`
 	Cve CVEJSON40Min `json:"cve"`
-	Impact NvdCveFeedJson01BetaDefImpact `json:"impact"`
-	LastModifiedDate string `json:"lastModifiedDate"`
-	PublishedDate string `json:"publishedDate"`
+	Impact NvdCveFeedJson01BetaDefImpact `json:"impact,omitempty"`
+	LastModifiedDate string `json:"lastModifiedDate,omitempty"`
+	PublishedDate string `json:"publishedDate,omitempty"`
 }
 
 // NvdCveFeedJson01Beta was auto-generated.
 // Source: testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
 type NvdCveFeedJson01Beta struct {
 	CVEDataFormat string `json:"CVE_data_format"`
-	CVEDataNumberOfCVEs string `json:"CVE_data_numberOfCVEs"`
-	CVEDataTimestamp string `json:"CVE_data_timestamp"`
+	CVEDataNumberOfCVEs string `json:"CVE_data_numberOfCVEs,omitempty"`
+	CVEDataTimestamp string `json:"CVE_data_timestamp,omitempty"`
 	CVEDataType string `json:"CVE_data_type"`
 	CVEDataVersion string `json:"CVE_data_version"`
 	CVEItems []NvdCveFeedJson01BetaDefCveItem `json:"CVE_Items"`

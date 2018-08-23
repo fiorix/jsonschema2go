@@ -80,7 +80,11 @@ func GenGo(w io.Writer, jsonSchemaURL string) error {
 			} else {
 				io.WriteString(&line, goTypeConv.Get(structField.Type))
 			}
-			fmt.Fprintf(&line, " `json:\"%s\"`", structField.Name)
+			omit := ""
+			if _, required := structType.Required[structField.Name]; !required {
+				omit = ",omitempty"
+			}
+			fmt.Fprintf(&line, " `json:\"%s%s\"`", structField.Name, omit)
 			fields = append(fields, line.String())
 		}
 

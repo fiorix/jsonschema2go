@@ -29,10 +29,11 @@ func ParseSchema(jsonSchemaURL string) (StructList, error) {
 type StructList []structType
 
 type structType struct {
-	File   string
-	Name   string
-	Desc   string
-	Fields []structField
+	File     string
+	Name     string
+	Desc     string
+	Fields   []structField
+	Required map[string]struct{}
 }
 
 type structField struct {
@@ -128,9 +129,10 @@ func (g *schema2go) genStruct(list *StructList, name, file string, t *schema.Typ
 	}
 
 	st := structType{
-		Name: name,
-		File: file,
-		Desc: t.Description,
+		Name:     name,
+		File:     file,
+		Desc:     t.Description,
+		Required: make(map[string]struct{}),
 	}
 
 	keys := make([]string, 0, len(t.Properties))
@@ -148,6 +150,10 @@ func (g *schema2go) genStruct(list *StructList, name, file string, t *schema.Typ
 		}
 		field.Name = fieldName
 		st.Fields = append(st.Fields, *field)
+	}
+
+	for _, fieldName := range t.Required {
+		st.Required[fieldName] = struct{}{}
 	}
 
 	*list = append(*list, st)

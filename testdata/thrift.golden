@@ -6,228 +6,228 @@ namespace py schema
 
 // NvdCveFeedJson01BetaDefNodeCpe was auto-generated.
 struct NvdCveFeedJson01BetaDefNodeCpe {
- 1: string cpe23Uri;
- 2: string cpeMatchString;
- 3: string versionEndExcluding;
- 4: string versionEndIncluding;
- 5: string versionStartExcluding;
- 6: string versionStartIncluding;
- 7: bool vulnerable;
+ 1: optional string cpe23Uri;
+ 2: optional string cpeMatchString;
+ 3: optional string versionEndExcluding;
+ 4: optional string versionEndIncluding;
+ 5: optional string versionStartExcluding;
+ 6: optional string versionStartIncluding;
+ 7: optional bool vulnerable;
 }
 
 // NvdCveFeedJson01BetaDefNode was auto-generated.
 // Defines a node or sub-node in an NVD applicability statement.
 struct NvdCveFeedJson01BetaDefNode {
- 1: list<NvdCveFeedJson01BetaDefNode> children;
- 2: list<NvdCveFeedJson01BetaDefNodeCpe> cpe;
- 3: bool negate;
- 4: string operator;
+ 1: optional list<NvdCveFeedJson01BetaDefNode> children;
+ 2: optional list<NvdCveFeedJson01BetaDefNodeCpe> cpe;
+ 3: optional bool negate;
+ 4: optional string operator;
 }
 
 // NvdCveFeedJson01BetaDefConfigurations was auto-generated.
 // Defines the set of product configurations for a NVD applicability statement.
 struct NvdCveFeedJson01BetaDefConfigurations {
- 1: string CVE_data_version;
- 2: list<NvdCveFeedJson01BetaDefNode> nodes;
+ 1: required string CVE_data_version;
+ 2: optional list<NvdCveFeedJson01BetaDefNode> nodes;
 }
 
 // CVEJSON40MinCVEDataMeta was auto-generated.
 struct CVEJSON40MinCVEDataMeta {
- 1: string ASSIGNER;
- 2: string ID;
- 3: string STATE;
+ 1: required string ASSIGNER;
+ 2: required string ID;
+ 3: optional string STATE;
 }
 
 // CVEJSON40MinProductVersionVersionData was auto-generated.
 struct CVEJSON40MinProductVersionVersionData {
- 1: string version_affected;
- 2: string version_value;
+ 1: optional string version_affected;
+ 2: required string version_value;
 }
 
 // CVEJSON40MinProductVersion was auto-generated.
 struct CVEJSON40MinProductVersion {
- 1: list<CVEJSON40MinProductVersionVersionData> version_data;
+ 1: required list<CVEJSON40MinProductVersionVersionData> version_data;
 }
 
 // CVEJSON40MinProduct was auto-generated.
 struct CVEJSON40MinProduct {
- 1: string product_name;
- 2: CVEJSON40MinProductVersion version;
+ 1: required string product_name;
+ 2: required CVEJSON40MinProductVersion version;
 }
 
 // CVEJSON40MinAffectsVendorVendorDataProduct was auto-generated.
 struct CVEJSON40MinAffectsVendorVendorDataProduct {
- 1: list<CVEJSON40MinProduct> product_data;
+ 1: required list<CVEJSON40MinProduct> product_data;
 }
 
 // CVEJSON40MinAffectsVendorVendorData was auto-generated.
 struct CVEJSON40MinAffectsVendorVendorData {
- 1: CVEJSON40MinAffectsVendorVendorDataProduct product;
- 2: string vendor_name;
+ 1: required CVEJSON40MinAffectsVendorVendorDataProduct product;
+ 2: required string vendor_name;
 }
 
 // CVEJSON40MinAffectsVendor was auto-generated.
 struct CVEJSON40MinAffectsVendor {
- 1: list<CVEJSON40MinAffectsVendorVendorData> vendor_data;
+ 1: required list<CVEJSON40MinAffectsVendorVendorData> vendor_data;
 }
 
 // CVEJSON40MinAffects was auto-generated.
 struct CVEJSON40MinAffects {
- 1: CVEJSON40MinAffectsVendor vendor;
+ 1: required CVEJSON40MinAffectsVendor vendor;
 }
 
 // CVEJSON40MinLangString was auto-generated.
 struct CVEJSON40MinLangString {
- 1: string lang;
- 2: string value;
+ 1: required string lang;
+ 2: required string value;
 }
 
 // CVEJSON40MinDescription was auto-generated.
 struct CVEJSON40MinDescription {
- 1: list<CVEJSON40MinLangString> description_data;
+ 1: required list<CVEJSON40MinLangString> description_data;
 }
 
 // CVEJSON40MinProblemtypeProblemtypeData was auto-generated.
 struct CVEJSON40MinProblemtypeProblemtypeData {
- 1: list<CVEJSON40MinLangString> description;
+ 1: required list<CVEJSON40MinLangString> description;
 }
 
 // CVEJSON40MinProblemtype was auto-generated.
 struct CVEJSON40MinProblemtype {
- 1: list<CVEJSON40MinProblemtypeProblemtypeData> problemtype_data;
+ 1: required list<CVEJSON40MinProblemtypeProblemtypeData> problemtype_data;
 }
 
 // CVEJSON40MinReference was auto-generated.
 struct CVEJSON40MinReference {
- 1: string name;
- 2: string refsource;
- 3: list<string> tags;
- 4: string url;
+ 1: optional string name;
+ 2: optional string refsource;
+ 3: optional list<string> tags;
+ 4: required string url;
 }
 
 // CVEJSON40MinReferences was auto-generated.
 struct CVEJSON40MinReferences {
- 1: list<CVEJSON40MinReference> reference_data;
+ 1: required list<CVEJSON40MinReference> reference_data;
 }
 
 // CVEJSON40Min was auto-generated.
 // Source: testdata/nvd/CVE_JSON_4.0_min.schema
 struct CVEJSON40Min {
- 1: CVEJSON40MinCVEDataMeta CVE_data_meta;
- 2: CVEJSON40MinAffects affects;
- 3: string data_format;
- 4: string data_type;
- 5: string data_version;
- 6: CVEJSON40MinDescription description;
- 7: CVEJSON40MinProblemtype problemtype;
- 8: CVEJSON40MinReferences references;
+ 1: required CVEJSON40MinCVEDataMeta CVE_data_meta;
+ 2: required CVEJSON40MinAffects affects;
+ 3: required string data_format;
+ 4: required string data_type;
+ 5: required string data_version;
+ 6: required CVEJSON40MinDescription description;
+ 7: required CVEJSON40MinProblemtype problemtype;
+ 8: required CVEJSON40MinReferences references;
 }
 
 // CvssV20 was auto-generated.
 // Source: testdata/nvd/cvss-v2.0.json
 struct CvssV20 {
- 1: string accessComplexity;
- 2: string accessVector;
- 3: string authentication;
- 4: string availabilityImpact;
- 5: string availabilityRequirement;
- 6: double baseScore;
- 7: string collateralDamagePotential;
- 8: string confidentialityImpact;
- 9: string confidentialityRequirement;
- 10: double environmentalScore;
- 11: string exploitability;
- 12: string integrityImpact;
- 13: string integrityRequirement;
- 14: string remediationLevel;
- 15: string reportConfidence;
- 16: string targetDistribution;
- 17: double temporalScore;
- 18: string vectorString;
- 19: string version;
+ 1: optional string accessComplexity;
+ 2: optional string accessVector;
+ 3: optional string authentication;
+ 4: optional string availabilityImpact;
+ 5: optional string availabilityRequirement;
+ 6: required double baseScore;
+ 7: optional string collateralDamagePotential;
+ 8: optional string confidentialityImpact;
+ 9: optional string confidentialityRequirement;
+ 10: optional double environmentalScore;
+ 11: optional string exploitability;
+ 12: optional string integrityImpact;
+ 13: optional string integrityRequirement;
+ 14: optional string remediationLevel;
+ 15: optional string reportConfidence;
+ 16: optional string targetDistribution;
+ 17: optional double temporalScore;
+ 18: required string vectorString;
+ 19: required string version;
 }
 
 // NvdCveFeedJson01BetaDefImpactBaseMetricV2 was auto-generated.
 // CVSS V2.0 score.
 struct NvdCveFeedJson01BetaDefImpactBaseMetricV2 {
- 1: CvssV20 cvssV2;
- 2: double exploitabilityScore;
- 3: double impactScore;
- 4: bool obtainAllPrivilege;
- 5: bool obtainOtherPrivilege;
- 6: bool obtainUserPrivilege;
- 7: string severity;
- 8: bool userInteractionRequired;
+ 1: optional CvssV20 cvssV2;
+ 2: optional double exploitabilityScore;
+ 3: optional double impactScore;
+ 4: optional bool obtainAllPrivilege;
+ 5: optional bool obtainOtherPrivilege;
+ 6: optional bool obtainUserPrivilege;
+ 7: optional string severity;
+ 8: optional bool userInteractionRequired;
 }
 
 // CvssV30 was auto-generated.
 // Source: testdata/nvd/cvss-v3.0.json
 struct CvssV30 {
- 1: string attackComplexity;
- 2: string attackVector;
- 3: string availabilityImpact;
- 4: string availabilityRequirement;
- 5: double baseScore;
- 6: string baseSeverity;
- 7: string confidentialityImpact;
- 8: string confidentialityRequirement;
- 9: double environmentalScore;
- 10: string environmentalSeverity;
- 11: string exploitCodeMaturity;
- 12: string integrityImpact;
- 13: string integrityRequirement;
- 14: string modifiedAttackComplexity;
- 15: string modifiedAttackVector;
- 16: string modifiedAvailabilityImpact;
- 17: string modifiedConfidentialityImpact;
- 18: string modifiedIntegrityImpact;
- 19: string modifiedPrivilegesRequired;
- 20: string modifiedScope;
- 21: string modifiedUserInteraction;
- 22: string privilegesRequired;
- 23: string remediationLevel;
- 24: string reportConfidence;
- 25: string scope;
- 26: double temporalScore;
- 27: string temporalSeverity;
- 28: string userInteraction;
- 29: string vectorString;
- 30: string version;
+ 1: optional string attackComplexity;
+ 2: optional string attackVector;
+ 3: optional string availabilityImpact;
+ 4: optional string availabilityRequirement;
+ 5: required double baseScore;
+ 6: required string baseSeverity;
+ 7: optional string confidentialityImpact;
+ 8: optional string confidentialityRequirement;
+ 9: optional double environmentalScore;
+ 10: optional string environmentalSeverity;
+ 11: optional string exploitCodeMaturity;
+ 12: optional string integrityImpact;
+ 13: optional string integrityRequirement;
+ 14: optional string modifiedAttackComplexity;
+ 15: optional string modifiedAttackVector;
+ 16: optional string modifiedAvailabilityImpact;
+ 17: optional string modifiedConfidentialityImpact;
+ 18: optional string modifiedIntegrityImpact;
+ 19: optional string modifiedPrivilegesRequired;
+ 20: optional string modifiedScope;
+ 21: optional string modifiedUserInteraction;
+ 22: optional string privilegesRequired;
+ 23: optional string remediationLevel;
+ 24: optional string reportConfidence;
+ 25: optional string scope;
+ 26: optional double temporalScore;
+ 27: optional string temporalSeverity;
+ 28: optional string userInteraction;
+ 29: required string vectorString;
+ 30: required string version;
 }
 
 // NvdCveFeedJson01BetaDefImpactBaseMetricV3 was auto-generated.
 // CVSS V3.0 score.
 struct NvdCveFeedJson01BetaDefImpactBaseMetricV3 {
- 1: CvssV30 cvssV3;
- 2: double exploitabilityScore;
- 3: double impactScore;
+ 1: optional CvssV30 cvssV3;
+ 2: optional double exploitabilityScore;
+ 3: optional double impactScore;
 }
 
 // NvdCveFeedJson01BetaDefImpact was auto-generated.
 // Impact scores for a vulnerability as found on NVD.
 struct NvdCveFeedJson01BetaDefImpact {
- 1: NvdCveFeedJson01BetaDefImpactBaseMetricV2 baseMetricV2;
- 2: NvdCveFeedJson01BetaDefImpactBaseMetricV3 baseMetricV3;
+ 1: optional NvdCveFeedJson01BetaDefImpactBaseMetricV2 baseMetricV2;
+ 2: optional NvdCveFeedJson01BetaDefImpactBaseMetricV3 baseMetricV3;
 }
 
 // NvdCveFeedJson01BetaDefCveItem was auto-generated.
 // Defines a vulnerability in the NVD data feed.
 struct NvdCveFeedJson01BetaDefCveItem {
- 1: NvdCveFeedJson01BetaDefConfigurations configurations;
- 2: CVEJSON40Min cve;
- 3: NvdCveFeedJson01BetaDefImpact impact;
- 4: string lastModifiedDate;
- 5: string publishedDate;
+ 1: optional NvdCveFeedJson01BetaDefConfigurations configurations;
+ 2: required CVEJSON40Min cve;
+ 3: optional NvdCveFeedJson01BetaDefImpact impact;
+ 4: optional string lastModifiedDate;
+ 5: optional string publishedDate;
 }
 
 // NvdCveFeedJson01Beta was auto-generated.
 // Source: testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
 struct NvdCveFeedJson01Beta {
- 1: list<NvdCveFeedJson01BetaDefCveItem> CVE_Items;
- 2: string CVE_data_format;
- 3: string CVE_data_numberOfCVEs;
- 4: string CVE_data_timestamp;
- 5: string CVE_data_type;
- 6: string CVE_data_version;
+ 1: required list<NvdCveFeedJson01BetaDefCveItem> CVE_Items;
+ 2: required string CVE_data_format;
+ 3: optional string CVE_data_numberOfCVEs;
+ 4: optional string CVE_data_timestamp;
+ 5: required string CVE_data_type;
+ 6: required string CVE_data_version;
 }
 

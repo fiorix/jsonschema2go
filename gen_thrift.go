@@ -71,6 +71,12 @@ func GenThrift(w io.Writer, jsonSchemaURL string) error {
 
 			var line strings.Builder
 
+			if _, required := structType.Required[structField.Name]; required {
+				io.WriteString(&line, "required ")
+			} else {
+				io.WriteString(&line, "optional ")
+			}
+
 			if structField.IsSlice {
 				fmt.Fprintf(&line, "list<%s>", t)
 			} else {
