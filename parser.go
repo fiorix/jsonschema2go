@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -51,7 +52,13 @@ type schema2go struct {
 	typeCache map[string]struct{}
 }
 
+var nameExtRegexp = regexp.MustCompile(`[._]min[.](json|schema)([.]gz)?$`)
+
 func nameFromFile(file string) string {
+	idx := nameExtRegexp.FindStringIndex(file)
+	if len(idx) > 0 {
+		return strings.Replace(file[0:idx[0]], ".", "", -1)
+	}
 	ext := path.Ext(file)
 	file = strings.Replace(file, ".", "", -1)
 	if ext == "" {

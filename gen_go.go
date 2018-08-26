@@ -25,7 +25,12 @@ func goPublicType(name string) string {
 
 	name = ""
 	for _, part := range parts {
-		name += strings.Title(part)
+		p := strings.ToUpper(part)
+		if _, exists := commonInitialisms[p]; exists {
+			name += p
+		} else {
+			name += strings.Title(part)
+		}
 	}
 
 	return name
