@@ -1,5 +1,7 @@
 # jsonschema2go
 
+[![Build Status](https://secure.travis-ci.org/fiorix/jsonschema2go.png)](http://travis-ci.org/fiorix/jsonschema2go)
+
 jsonschema2go is a code generator for JSON schemas. Supports schemas from local files or URL, and generates Go code, or thrift spec.
 
 This is a very naive and incomplete implementation. I wrote this code specifically to codegen the [NVD JSON schema](https://nvd.nist.gov/vuln/data-feeds#JSON_FEED), based on a few requirements:
@@ -9,6 +11,8 @@ This is a very naive and incomplete implementation. I wrote this code specifical
 * Capable of generating at least Go and Thrift
 
 ### Download, install
+
+Requires Go 1.10 or newer. The generated thrift spec requires thrift compiler 0.11 or newer.
 
 Assuming you have a working Go environment:
 

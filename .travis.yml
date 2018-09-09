@@ -1,0 +1,16 @@
+language: go
+
+os: osx
+
+go:
+  - "1.10"
+  - "1.x"
+
+git:
+  depth: 1
+
+before_script:
+  - brew install thrift
+
+script:
+  - make
