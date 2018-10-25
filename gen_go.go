@@ -72,6 +72,10 @@ func GenGo(w io.Writer, jsonSchemaURL string) error {
 		fields := make([]string, 0, len(structType.Fields))
 
 		for _, structField := range structType.Fields {
+			if structField.Type == "null" {
+				continue
+			}
+
 			var line strings.Builder
 			fmt.Fprintf(&line, "\t%s ", goPublicType(structField.Name))
 			if structField.IsSlice {

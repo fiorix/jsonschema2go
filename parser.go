@@ -184,7 +184,7 @@ func (g *schema2go) genStructField(list *StructList, parent, name string, t *sch
 	}
 
 	switch t.Type {
-	case "string", "number", "boolean":
+	case "string", "number", "boolean", "null":
 		// TODO: handle number's min/max, etc
 		f := &structField{
 			Name: name,

@@ -28,6 +28,10 @@ var thriftTypeConv = typeConv{
 	"string":  "string",
 }
 
+var thriftReservedWords = map[string]string{
+	"package": "_package",
+}
+
 // GenThrift generates thrift spec to w.
 func GenThrift(w io.Writer, jsonSchemaURL string) error {
 	list, err := ParseSchema(jsonSchemaURL)
@@ -61,6 +65,10 @@ func GenThrift(w io.Writer, jsonSchemaURL string) error {
 		fields := make(map[string]string)
 
 		for _, structField := range structType.Fields {
+			if structField.Type == "null" {
+				continue
+			}
+
 			var t string
 			if structField.IsStruct {
 				//t = thriftPublicType(structField.Type)
@@ -84,6 +92,9 @@ func GenThrift(w io.Writer, jsonSchemaURL string) error {
 			}
 
 			name := thriftPublicType(structField.Name)
+			if v, exists := thriftReservedWords[name]; exists {
+				name = v
+			}
 			fmt.Fprintf(&line, " %s;", name)
 
 			fields[name] = line.String()
