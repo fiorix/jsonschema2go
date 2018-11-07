@@ -1,3 +1,5 @@
+TEST_SCHEMA=testdata/nvd/nvd_cve_feed_json_1.0.schema
+
 all: \
 	binary \
 	test \
@@ -10,18 +12,18 @@ binary:
 test:
 	go test -v -cover
 
-gen-golden:
-	./jsonschema2go -gen go testdata/nvd/nvd_cve_feed_json_0.1_beta.schema > testdata/go.golden
-	./jsonschema2go -gen thrift testdata/nvd/nvd_cve_feed_json_0.1_beta.schema > testdata/thrift.golden
+gen-golden: binary
+	./jsonschema2go -gen go $(TEST_SCHEMA) > testdata/go.golden
+	./jsonschema2go -gen thrift $(TEST_SCHEMA) > testdata/thrift.golden
 
-test-gen-go:
+test-gen-go: binary
 	mkdir -p .test/go
-	./jsonschema2go -gen go -o .test/go/schema.go -gofmt ./testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
+	./jsonschema2go -gen go -o .test/go/schema.go -gofmt $(TEST_SCHEMA)
 	(cd .test/go && go build -v)
 
-test-gen-thrift:
+test-gen-thrift: binary
 	mkdir -p .test/thrift
-	./jsonschema2go -gen thrift -o .test/thrift/schema.thrift ./testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
+	./jsonschema2go -gen thrift -o .test/thrift/schema.thrift $(TEST_SCHEMA)
 	(cd .test/thrift && thrift -gen go schema.thrift)
 
 clean:

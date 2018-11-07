@@ -1,8 +1,60 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "JSON Schema for NVD Vulnerability Data Feed version 0.1_beta",
-    "id": "https://scap.nist.gov/schema/nvd/nvd_cve_feed_json_0.1_beta.schema",
+    "title": "JSON Schema for NVD Vulnerability Data Feed version 1.0",
+    "id": "https://scap.nist.gov/schema/nvd/feed/1.0/nvd_cve_feed_json_1.0.schema",
     "definitions": {
+    "def_cpe_name": {
+      "description": "CPE name",
+      "type": "object",
+      "properties": {
+        "cpe22Uri": {
+          "type": "string"
+        },
+        "cpe23Uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cpe23Uri"
+      ]
+    },
+    "def_cpe_match": {
+      "description": "CPE match string or range",
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "boolean"
+        },
+        "cpe22Uri": {
+          "type": "string"
+        },
+        "cpe23Uri": {
+          "type": "string"
+        },
+        "versionStartExcluding": {
+          "type": "string"
+        },
+        "versionStartIncluding": {
+          "type": "string"
+        },
+        "versionEndExcluding": {
+          "type": "string"
+        },
+        "versionEndIncluding": {
+          "type": "string"
+        },
+        "cpe_name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/def_cpe_name"
+          }
+        }
+      },
+      "required": [
+        "vulnerable",
+        "cpe23Uri"
+      ]
+    },
         "def_node": {
             "description": "Defines a node or sub-node in an NVD applicability statement.",
             "properties": {
@@ -12,24 +64,9 @@
                     "type": "array",
                     "items": {"$ref": "#/definitions/def_node"}
                 },
-                "cpe": {
+                "cpe_match": {
                     "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "vulnerable": {"type": "boolean"},
-                            "cpeMatchString": {"type": "string"},
-                            "cpe23Uri": {"type": "string"},
-                            "versionStartExcluding": {"type": "string"},
-                            "versionStartIncluding": {"type": "string"},
-                            "versionEndExcluding": {"type": "string"},
-                            "versionEndIncluding": {"type": "string"}
-                        },
-                        "required": [
-                            "lang",
-                            "value"
-                        ]
-                    }
+                    "items": {"$ref": "#/definitions/def_cpe_match"}
                 }
             }
         },
@@ -43,8 +80,7 @@
                 }
             },
             "required": [
-                "CVE_data_version",
-                "CVE_configuration_data"
+                "CVE_data_version"
             ]
         },
         "def_subscore": {
@@ -74,6 +110,7 @@
                         "severity": {"type": "string"},
                         "exploitabilityScore": {"$ref": "#/definitions/def_subscore"},
                         "impactScore": {"$ref": "#/definitions/def_subscore"},
+                        "acInsufInfo": {"type": "boolean"},
                         "obtainAllPrivilege": {"type": "boolean"},
                         "obtainUserPrivilege": {"type": "boolean"},
                         "obtainOtherPrivilege": {"type": "boolean"},

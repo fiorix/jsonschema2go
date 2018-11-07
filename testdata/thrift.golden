@@ -1,34 +1,43 @@
 // This thrift spec was auto-generated.
-// Command: ./jsonschema2go -gen thrift testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
+// Command: ./jsonschema2go -gen thrift testdata/nvd/nvd_cve_feed_json_1.0.schema
 
 namespace go schema
 namespace py schema
 
-// NVDCVEFeedJSON01BetaDefNodeCPE was auto-generated.
-struct NVDCVEFeedJSON01BetaDefNodeCPE {
- 1: optional string cpe23Uri;
- 2: optional string cpeMatchString;
- 3: optional string versionEndExcluding;
- 4: optional string versionEndIncluding;
- 5: optional string versionStartExcluding;
- 6: optional string versionStartIncluding;
- 7: optional bool vulnerable;
+// NVDCVEFeedJSON10DefCPEName was auto-generated.
+// CPE name.
+struct NVDCVEFeedJSON10DefCPEName {
+ 1: optional string cpe22Uri;
+ 2: required string cpe23Uri;
 }
 
-// NVDCVEFeedJSON01BetaDefNode was auto-generated.
+// NVDCVEFeedJSON10DefCPEMatch was auto-generated.
+// CPE match string or range.
+struct NVDCVEFeedJSON10DefCPEMatch {
+ 1: optional string cpe22Uri;
+ 2: required string cpe23Uri;
+ 3: optional list<NVDCVEFeedJSON10DefCPEName> cpe_name;
+ 4: optional string versionEndExcluding;
+ 5: optional string versionEndIncluding;
+ 6: optional string versionStartExcluding;
+ 7: optional string versionStartIncluding;
+ 8: required bool vulnerable;
+}
+
+// NVDCVEFeedJSON10DefNode was auto-generated.
 // Defines a node or sub-node in an NVD applicability statement.
-struct NVDCVEFeedJSON01BetaDefNode {
- 1: optional list<NVDCVEFeedJSON01BetaDefNode> children;
- 2: optional list<NVDCVEFeedJSON01BetaDefNodeCPE> cpe;
+struct NVDCVEFeedJSON10DefNode {
+ 1: optional list<NVDCVEFeedJSON10DefNode> children;
+ 2: optional list<NVDCVEFeedJSON10DefCPEMatch> cpe_match;
  3: optional bool negate;
  4: optional string operator;
 }
 
-// NVDCVEFeedJSON01BetaDefConfigurations was auto-generated.
+// NVDCVEFeedJSON10DefConfigurations was auto-generated.
 // Defines the set of product configurations for a NVD applicability statement.
-struct NVDCVEFeedJSON01BetaDefConfigurations {
+struct NVDCVEFeedJSON10DefConfigurations {
  1: required string CVE_data_version;
- 2: optional list<NVDCVEFeedJSON01BetaDefNode> nodes;
+ 2: optional list<NVDCVEFeedJSON10DefNode> nodes;
 }
 
 // CVEJSON40CVEDataMeta was auto-generated.
@@ -147,17 +156,18 @@ struct CVSSV20 {
  19: required string version;
 }
 
-// NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 was auto-generated.
+// NVDCVEFeedJSON10DefImpactBaseMetricV2 was auto-generated.
 // CVSS V2.0 score.
-struct NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 {
- 1: optional CVSSV20 cvssV2;
- 2: optional double exploitabilityScore;
- 3: optional double impactScore;
- 4: optional bool obtainAllPrivilege;
- 5: optional bool obtainOtherPrivilege;
- 6: optional bool obtainUserPrivilege;
- 7: optional string severity;
- 8: optional bool userInteractionRequired;
+struct NVDCVEFeedJSON10DefImpactBaseMetricV2 {
+ 1: optional bool acInsufInfo;
+ 2: optional CVSSV20 cvssV2;
+ 3: optional double exploitabilityScore;
+ 4: optional double impactScore;
+ 5: optional bool obtainAllPrivilege;
+ 6: optional bool obtainOtherPrivilege;
+ 7: optional bool obtainUserPrivilege;
+ 8: optional string severity;
+ 9: optional bool userInteractionRequired;
 }
 
 // CVSSV30 was auto-generated.
@@ -195,35 +205,35 @@ struct CVSSV30 {
  30: required string version;
 }
 
-// NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 was auto-generated.
+// NVDCVEFeedJSON10DefImpactBaseMetricV3 was auto-generated.
 // CVSS V3.0 score.
-struct NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 {
+struct NVDCVEFeedJSON10DefImpactBaseMetricV3 {
  1: optional CVSSV30 cvssV3;
  2: optional double exploitabilityScore;
  3: optional double impactScore;
 }
 
-// NVDCVEFeedJSON01BetaDefImpact was auto-generated.
+// NVDCVEFeedJSON10DefImpact was auto-generated.
 // Impact scores for a vulnerability as found on NVD.
-struct NVDCVEFeedJSON01BetaDefImpact {
- 1: optional NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 baseMetricV2;
- 2: optional NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 baseMetricV3;
+struct NVDCVEFeedJSON10DefImpact {
+ 1: optional NVDCVEFeedJSON10DefImpactBaseMetricV2 baseMetricV2;
+ 2: optional NVDCVEFeedJSON10DefImpactBaseMetricV3 baseMetricV3;
 }
 
-// NVDCVEFeedJSON01BetaDefCVEItem was auto-generated.
+// NVDCVEFeedJSON10DefCVEItem was auto-generated.
 // Defines a vulnerability in the NVD data feed.
-struct NVDCVEFeedJSON01BetaDefCVEItem {
- 1: optional NVDCVEFeedJSON01BetaDefConfigurations configurations;
+struct NVDCVEFeedJSON10DefCVEItem {
+ 1: optional NVDCVEFeedJSON10DefConfigurations configurations;
  2: required CVEJSON40 cve;
- 3: optional NVDCVEFeedJSON01BetaDefImpact impact;
+ 3: optional NVDCVEFeedJSON10DefImpact impact;
  4: optional string lastModifiedDate;
  5: optional string publishedDate;
 }
 
-// NVDCVEFeedJSON01Beta was auto-generated.
-// Source: testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
-struct NVDCVEFeedJSON01Beta {
- 1: required list<NVDCVEFeedJSON01BetaDefCVEItem> CVE_Items;
+// NVDCVEFeedJSON10 was auto-generated.
+// Source: testdata/nvd/nvd_cve_feed_json_1.0.schema
+struct NVDCVEFeedJSON10 {
+ 1: required list<NVDCVEFeedJSON10DefCVEItem> CVE_Items;
  2: required string CVE_data_format;
  3: optional string CVE_data_numberOfCVEs;
  4: optional string CVE_data_timestamp;

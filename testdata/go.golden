@@ -1,32 +1,41 @@
 // Package schema was auto-generated.
-// Command: ./jsonschema2go -gen go testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
+// Command: ./jsonschema2go -gen go testdata/nvd/nvd_cve_feed_json_1.0.schema
 package schema
 
-// NVDCVEFeedJSON01BetaDefNodeCPE was auto-generated.
-type NVDCVEFeedJSON01BetaDefNodeCPE struct {
-	Cpe23Uri string `json:"cpe23Uri,omitempty"`
-	CpeMatchString string `json:"cpeMatchString,omitempty"`
+// NVDCVEFeedJSON10DefCPEName was auto-generated.
+// CPE name.
+type NVDCVEFeedJSON10DefCPEName struct {
+	Cpe22Uri string `json:"cpe22Uri,omitempty"`
+	Cpe23Uri string `json:"cpe23Uri"`
+}
+
+// NVDCVEFeedJSON10DefCPEMatch was auto-generated.
+// CPE match string or range.
+type NVDCVEFeedJSON10DefCPEMatch struct {
+	CPEName []NVDCVEFeedJSON10DefCPEName `json:"cpe_name,omitempty"`
+	Cpe22Uri string `json:"cpe22Uri,omitempty"`
+	Cpe23Uri string `json:"cpe23Uri"`
 	VersionEndExcluding string `json:"versionEndExcluding,omitempty"`
 	VersionEndIncluding string `json:"versionEndIncluding,omitempty"`
 	VersionStartExcluding string `json:"versionStartExcluding,omitempty"`
 	VersionStartIncluding string `json:"versionStartIncluding,omitempty"`
-	Vulnerable bool `json:"vulnerable,omitempty"`
+	Vulnerable bool `json:"vulnerable"`
 }
 
-// NVDCVEFeedJSON01BetaDefNode was auto-generated.
+// NVDCVEFeedJSON10DefNode was auto-generated.
 // Defines a node or sub-node in an NVD applicability statement.
-type NVDCVEFeedJSON01BetaDefNode struct {
-	CPE []NVDCVEFeedJSON01BetaDefNodeCPE `json:"cpe,omitempty"`
-	Children []NVDCVEFeedJSON01BetaDefNode `json:"children,omitempty"`
+type NVDCVEFeedJSON10DefNode struct {
+	CPEMatch []NVDCVEFeedJSON10DefCPEMatch `json:"cpe_match,omitempty"`
+	Children []NVDCVEFeedJSON10DefNode `json:"children,omitempty"`
 	Negate bool `json:"negate,omitempty"`
 	Operator string `json:"operator,omitempty"`
 }
 
-// NVDCVEFeedJSON01BetaDefConfigurations was auto-generated.
+// NVDCVEFeedJSON10DefConfigurations was auto-generated.
 // Defines the set of product configurations for a NVD applicability statement.
-type NVDCVEFeedJSON01BetaDefConfigurations struct {
+type NVDCVEFeedJSON10DefConfigurations struct {
 	CVEDataVersion string `json:"CVE_data_version"`
-	Nodes []NVDCVEFeedJSON01BetaDefNode `json:"nodes,omitempty"`
+	Nodes []NVDCVEFeedJSON10DefNode `json:"nodes,omitempty"`
 }
 
 // CVEJSON40CVEDataMeta was auto-generated.
@@ -145,9 +154,10 @@ type CVSSV20 struct {
 	Version string `json:"version"`
 }
 
-// NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 was auto-generated.
+// NVDCVEFeedJSON10DefImpactBaseMetricV2 was auto-generated.
 // CVSS V2.0 score.
-type NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 struct {
+type NVDCVEFeedJSON10DefImpactBaseMetricV2 struct {
+	AcInsufInfo bool `json:"acInsufInfo,omitempty"`
 	CVSSV2 CVSSV20 `json:"cvssV2,omitempty"`
 	ExploitabilityScore float64 `json:"exploitabilityScore,omitempty"`
 	ImpactScore float64 `json:"impactScore,omitempty"`
@@ -193,39 +203,39 @@ type CVSSV30 struct {
 	Version string `json:"version"`
 }
 
-// NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 was auto-generated.
+// NVDCVEFeedJSON10DefImpactBaseMetricV3 was auto-generated.
 // CVSS V3.0 score.
-type NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 struct {
+type NVDCVEFeedJSON10DefImpactBaseMetricV3 struct {
 	CVSSV3 CVSSV30 `json:"cvssV3,omitempty"`
 	ExploitabilityScore float64 `json:"exploitabilityScore,omitempty"`
 	ImpactScore float64 `json:"impactScore,omitempty"`
 }
 
-// NVDCVEFeedJSON01BetaDefImpact was auto-generated.
+// NVDCVEFeedJSON10DefImpact was auto-generated.
 // Impact scores for a vulnerability as found on NVD.
-type NVDCVEFeedJSON01BetaDefImpact struct {
-	BaseMetricV2 NVDCVEFeedJSON01BetaDefImpactBaseMetricV2 `json:"baseMetricV2,omitempty"`
-	BaseMetricV3 NVDCVEFeedJSON01BetaDefImpactBaseMetricV3 `json:"baseMetricV3,omitempty"`
+type NVDCVEFeedJSON10DefImpact struct {
+	BaseMetricV2 NVDCVEFeedJSON10DefImpactBaseMetricV2 `json:"baseMetricV2,omitempty"`
+	BaseMetricV3 NVDCVEFeedJSON10DefImpactBaseMetricV3 `json:"baseMetricV3,omitempty"`
 }
 
-// NVDCVEFeedJSON01BetaDefCVEItem was auto-generated.
+// NVDCVEFeedJSON10DefCVEItem was auto-generated.
 // Defines a vulnerability in the NVD data feed.
-type NVDCVEFeedJSON01BetaDefCVEItem struct {
+type NVDCVEFeedJSON10DefCVEItem struct {
 	CVE CVEJSON40 `json:"cve"`
-	Configurations NVDCVEFeedJSON01BetaDefConfigurations `json:"configurations,omitempty"`
-	Impact NVDCVEFeedJSON01BetaDefImpact `json:"impact,omitempty"`
+	Configurations NVDCVEFeedJSON10DefConfigurations `json:"configurations,omitempty"`
+	Impact NVDCVEFeedJSON10DefImpact `json:"impact,omitempty"`
 	LastModifiedDate string `json:"lastModifiedDate,omitempty"`
 	PublishedDate string `json:"publishedDate,omitempty"`
 }
 
-// NVDCVEFeedJSON01Beta was auto-generated.
-// Source: testdata/nvd/nvd_cve_feed_json_0.1_beta.schema
-type NVDCVEFeedJSON01Beta struct {
+// NVDCVEFeedJSON10 was auto-generated.
+// Source: testdata/nvd/nvd_cve_feed_json_1.0.schema
+type NVDCVEFeedJSON10 struct {
 	CVEDataFormat string `json:"CVE_data_format"`
 	CVEDataNumberOfCVEs string `json:"CVE_data_numberOfCVEs,omitempty"`
 	CVEDataTimestamp string `json:"CVE_data_timestamp,omitempty"`
 	CVEDataType string `json:"CVE_data_type"`
 	CVEDataVersion string `json:"CVE_data_version"`
-	CVEItems []NVDCVEFeedJSON01BetaDefCVEItem `json:"CVE_Items"`
+	CVEItems []NVDCVEFeedJSON10DefCVEItem `json:"CVE_Items"`
 }
 

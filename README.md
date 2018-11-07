@@ -28,11 +28,17 @@ Output binary is $GOPATH/bin/jsonschema2go.
 Generate Go code:
 
 ```
-jsonschema2go -gen go https://csrc.nist.gov/schema/nvd/feed/0.1/nvd_cve_feed_json_0.1_beta.schema
+jsonschema2go -gen go https://csrc.nist.gov/schema/nvd/feed/1.0/nvd_cve_feed_json_1.0.schema
 ```
 
 Generate Thrift spec:
 
 ```
-jsonschema2go -gen thrift https://csrc.nist.gov/schema/nvd/feed/0.1/nvd_cve_feed_json_0.1_beta.schema
+jsonschema2go -gen thrift https://csrc.nist.gov/schema/nvd/feed/1.0/nvd_cve_feed_json_1.0.schema
 ```
+
+### Generated type names
+
+Naming is hard. In jsonschema2go I made the choice to name generated Go and Thrift types after their respective filenames. In JSON schema, the body of the document is a type, like a struct, and it has no name. Hence using the filename with some normalization to idiomatic Go, with an adjusted list of keywords (e.g. CVE) for initialisms.
+
+You can see what it looks like in the golden files in the testdata directory.

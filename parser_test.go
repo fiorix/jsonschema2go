@@ -11,9 +11,10 @@ import (
 	"testing"
 )
 
+const testSchemaFile = "testdata/nvd/nvd_cve_feed_json_1.0.schema"
+
 func TestParseSchema(t *testing.T) {
-	srcFile := "testdata/nvd/nvd_cve_feed_json_0.1_beta.schema"
-	_, err := ParseSchema(srcFile)
+	_, err := ParseSchema(testSchemaFile)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +26,7 @@ var goldenCmdRegexp = regexp.MustCompile("// Command: .*\n")
 
 func testGenEqualGolden(t *testing.T, f genFunc, file string) {
 	var b bytes.Buffer
-	err := f(&b, "testdata/nvd/nvd_cve_feed_json_0.1_beta.schema")
+	err := f(&b, testSchemaFile)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,7 +41,7 @@ func testGenEqualGolden(t *testing.T, f genFunc, file string) {
 	have := goldenCmdRegexp.ReplaceAll(b.Bytes(), nil)
 
 	if !bytes.Equal(want, have) {
-		t.Error("golden file != generated file")
+		t.Error("golden file (a) != generated file (b)")
 		err = printDiff("gen", "tmp", want, have)
 		if err != nil {
 			t.Fatal(err)
