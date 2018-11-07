@@ -25,6 +25,25 @@ Output binary is $GOPATH/bin/jsonschema2go.
 
 ### Usage
 
+```
+use: ./jsonschema2go [flags] schema.json
+The input schema may be a local file or URL.
+  -gen string
+    	set output format: go, thrift (default "go")
+  -gofmt
+    	run gofmt on generated go code
+  -gopkg string
+    	set name of generated go package (default "schema")
+  -goptr
+    	generate go struct fields as pointers
+  -o string
+    	set name of output file (default "-")
+  -thriftns string
+    	set comma separated list of thrift namespaces (default "go schema,py schema")
+```
+
+---
+
 Generate Go code:
 
 ```
